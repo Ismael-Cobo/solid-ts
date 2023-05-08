@@ -1,23 +1,29 @@
-export const task = () => {
+const task = () => {
   //* Aplicar el principio de responsabilidad única
   //* Priorizar la composición frente a la herencia
 
   type HtmlType = 'input' | 'select' | 'textarea' | 'radio'
 
   class HtmlElement {
-    constructor(public id: string, public type: HtmlType) {}
-  }
-
-  class InputAttributes extends HtmlElement {
-    constructor(public value: string, public placeholder: string, id: string) {
-      super(id, 'input')
+    public id: string
+    public type: HtmlType
+    constructor(id: string, type: HtmlType) {
+      this.id = id
+      this.type = type
     }
   }
 
-  class InputEvents extends InputAttributes {
-    constructor(value: string, placeholder: string, id: string) {
-      super(value, placeholder, id)
+  class InputAttributes {
+    public value: string
+    public placeholder: string
+    constructor(value: string, placeholder: string) {
+      this.value = value
+      this.placeholder = placeholder
     }
+  }
+
+  class InputEvents {
+    constructor() {}
 
     setFocus() {}
     getValue() {}
@@ -25,9 +31,28 @@ export const task = () => {
     removeValue() {}
   }
 
+  interface IInputElement {
+    id: string
+    type: HtmlType
+    value: string
+    placeholder: string
+  }
+
+  class InputElement {
+    public htmlElements: HtmlElement
+    public inputAttr: InputAttributes
+    public InputEvents: InputEvents
+
+    constructor({ id, placeholder, type, value }: IInputElement) {
+      this.htmlElements = new HtmlElement(id, type)
+      this.inputAttr = new InputAttributes(value, placeholder)
+      this.InputEvents = new InputEvents()
+    }
+  }
+
   //? Idea para la nueva clase InputElement
 
-  const nameField = new InputEvents('Fernando', 'Enter first name', 'txtName')
+  const nameField = new InputElement({ id: '123', placeholder: 'escriba aquí', type: 'input', value: '' })
 
   console.log({ nameField })
 }

@@ -1,5 +1,5 @@
+import './solid/01-srp'
 import './style.css'
-import './tarea/tarea'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
